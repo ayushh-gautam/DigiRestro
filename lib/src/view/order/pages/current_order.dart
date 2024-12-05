@@ -14,7 +14,7 @@ class CurrentOrderPage extends StatefulWidget {
 class _CurrentOrderPageState extends State<CurrentOrderPage> {
   @override
   void initState() {
-    context.read<CartCubit>().getOrderHistory();
+    context.read<CartCubit>().getOrders();
     super.initState();
   }
 
@@ -22,7 +22,7 @@ class _CurrentOrderPageState extends State<CurrentOrderPage> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () {
-        return context.read<CartCubit>().getOrderHistory();
+        return context.read<CartCubit>().getOrders();
       },
       child: Scaffold(
         appBar: AppBar(

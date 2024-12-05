@@ -12,8 +12,12 @@ import 'package:DigiRestro/utils/extension.dart';
 import '../widget/home_bottom_sheet.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key, required this.userCredential});
+  HomePage(
+      {super.key,
+      required this.userCredential,
+      required this.currentTableNumber});
   final UserCredential userCredential;
+  final int currentTableNumber;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -52,10 +56,15 @@ class _HomePageState extends State<HomePage> {
               Gap(5.h)
             ],
           ),
-          bottomNavigationBar: HomeBottomSheet(),
+          bottomNavigationBar: HomeBottomSheet(
+            tableNumber: widget.currentTableNumber,
+          ),
           drawer: HomeDrawer(),
           body: SafeArea(
             child: CustomScrollView(slivers: [
+              SliverToBoxAdapter(
+                child: CustomText(text: widget.currentTableNumber.toString()),
+              ),
               BlocBuilder<ItemsCubit, ItemsState>(
                 builder: (context, state) {
                   if (state is ItemsLoaded) {

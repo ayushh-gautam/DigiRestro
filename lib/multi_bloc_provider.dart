@@ -1,3 +1,4 @@
+import 'package:DigiRestro/src/repository/table/cubit/table_cubit.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,9 @@ class MultiBlocProviderClass extends StatelessWidget {
       ),
       BlocProvider<CartCubit>(
         create: (_) => CartCubit(sl()),
+      ),
+      BlocProvider<TableCubit>(
+        create: (_) => TableCubit(firestore: sl()),
       ),
       BlocProvider(create: (_) => ImagePickerCubit())
     ], child: child);

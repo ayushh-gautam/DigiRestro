@@ -75,6 +75,31 @@ class CartCubit extends Cubit<CartState> {
   List<String> docIds = [];
   Future<List<OrderHistoryModel>> getOrderHistory() async {
     docIds.clear();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('OrderHistory')
+        .where(
+          "orderStatus",
+          isEqualTo: "Paid",
+        )
+        .get();
+
+    var data = querySnapshot.docs.map((DocumentSnapshot document) {
+      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+      return OrderHistoryModel.fromJson(data);
+    }).toList();
+// to get the id of each doc
+    querySnapshot.docs.forEach((doc) {
+      docIds.add(doc.id);
+    });
+    // print(data[0].itemModel![0].name);
+    orderHistoryModel = data;
+    emit(AddToCart(number: Random().nextInt(100)));
+    return data;
+  }
+
+  // List<String> docIds = [];
+  Future<List<OrderHistoryModel>> getOrders() async {
+    docIds.clear();
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('OrderHistory').get();
 

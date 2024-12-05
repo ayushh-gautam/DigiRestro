@@ -10,6 +10,7 @@ import 'package:DigiRestro/src/model/item_model.dart';
 import 'package:DigiRestro/src/repository/cart/cart_cubit.dart';
 import 'package:DigiRestro/utils/app_color.dart';
 import 'package:DigiRestro/utils/string_constant.dart';
+import 'package:gap/gap.dart';
 
 class TableCardGrid extends StatefulWidget {
   const TableCardGrid({
@@ -27,65 +28,66 @@ class _TableCardGridState extends State<TableCardGrid> {
   Widget build(BuildContext context) {
     return SliverGrid(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: 1,
+          childAspectRatio: 0.9,
           crossAxisCount: 2,
-          crossAxisSpacing: 8.0,
+          crossAxisSpacing: 6.0,
           mainAxisSpacing: 14.0),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return Stack(
           children: [
             Container(
-                // width: 100,
-                // height: 100,
-                padding: EdgeInsets.all(5),
-                // color: AppColor.forumTimeText,
-                child: Container(
-                  padding: const EdgeInsets.only(left: 7, right: 2, top: 4),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                      color: Colors.green.shade50,
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Column(
-                    children: [
-                      Image.network(
-                        widget.listOfTables?[index].image == ''
-                            ? 'https://www.tasteofhome.com/wp-content/uploads/2018/01/Crispy-Fried-Chicken_EXPS_TOHJJ22_6445_DR-_02_03_11b.jpg?fit=700,700'
-                            : widget.listOfTables?[index].image ?? '',
-                        height: 100.h,
-                        width: 200.h,
-                        fit: BoxFit.cover,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                  fontName: AppFonts.poppins,
-                                  fontWeight: FontWeight.w500,
-                                  size: 14.h,
-                                  text: widget.listOfTables?[index].name
-                                          .toString() ??
-                                      ''),
-                              CustomText(
-                                  size: 12.h,
-                                  text: widget.listOfTables?[index].price
-                                          .toString() ??
-                                      ''),
-                              CustomText(
-                                  size: 12.h,
-                                  text: widget.listOfTables?[index].category
-                                          .toString() ??
-                                      ''),
-                            ],
-                          ),
-                          //add button here
-                        ],
-                      )
-                    ],
+              padding: EdgeInsets.only(left: 7.h, right: 2.h, top: 4.h),
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                  color: Colors.green.shade50,
+                  borderRadius: BorderRadius.circular(12)),
+              child: Column(
+                children: [
+                  Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(8.h)),
+                    child: Image.network(
+                      widget.listOfTables?[index].image == ''
+                          ? 'https://www.tasteofhome.com/wp-content/uploads/2018/01/Crispy-Fried-Chicken_EXPS_TOHJJ22_6445_DR-_02_03_11b.jpg?fit=700,700'
+                          : widget.listOfTables?[index].image ?? '',
+                      height: 100.h,
+                      width: 200.h,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                )),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Gap(4.h),
+                          CustomText(
+                              fontName: AppFonts.poppins,
+                              fontWeight: FontWeight.w500,
+                              size: 14.h,
+                              text:
+                                  widget.listOfTables?[index].name.toString() ??
+                                      ''),
+                          CustomText(
+                              size: 12.h,
+                              text: widget.listOfTables?[index].price
+                                      .toString() ??
+                                  ''),
+                          CustomText(
+                              size: 12.h,
+                              text: widget.listOfTables?[index].category
+                                      .toString() ??
+                                  ''),
+                        ],
+                      ),
+                      //add button here
+                    ],
+                  )
+                ],
+              ),
+            ),
             Align(
               alignment: Alignment.bottomRight,
               child: IconButton(

@@ -22,7 +22,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomText(text: 'Current Orders'),
+        title: CustomText(text: 'Order History'),
       ),
       body: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {

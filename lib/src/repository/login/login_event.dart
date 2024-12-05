@@ -22,11 +22,11 @@ class OnGoogleLogout extends LoginEvent {
   OnGoogleLogout({required this.context});
 }
 
-class OnCheckLogin extends LoginEvent {
-  final BuildContext context;
+// class OnCheckLogin extends LoginEvent {
+//   final BuildContext context;
 
-  OnCheckLogin({required this.context});
-}
+//   OnCheckLogin({required this.context});
+// }
 
 class OnEmailLogin extends LoginEvent {
   String email;

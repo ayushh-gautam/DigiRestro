@@ -20,7 +20,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
-    context.read<LoginBloc>().add(OnCheckLogin(context: context));
+    // context.read<LoginBloc>().add(OnCheckLogin(context: context));
     super.initState();
   }
 
@@ -77,17 +77,17 @@ class _LoginPageState extends State<LoginPage> {
           ),
           const Gap(14),
           Center(child: CustomText(text: 'or continue with')),
-          Center(
-            child: GestureDetector(
-              onTap: () {
-                context.read<LoginBloc>().add(OnGoogleLogin(context: context));
-              },
-              child: SvgPicture.asset(
-                'lib/commons/assets/google.svg',
-                height: 80,
-              ),
-            ),
-          ),
+          // Center(
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       context.read<LoginBloc>().add(OnGoogleLogin(context: context));
+          //     },
+          //     child: SvgPicture.asset(
+          //       'lib/commons/assets/google.svg',
+          //       height: 80,
+          //     ),
+          //   ),
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

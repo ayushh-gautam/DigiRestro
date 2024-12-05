@@ -5,32 +5,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:DigiRestro/commons/controls/custom_button.dart';
 import 'package:DigiRestro/commons/controls/custom_text.dart';
-import 'package:DigiRestro/commons/controls/custom_textfield.dart';
 import 'package:DigiRestro/src/repository/cart/cart_cubit.dart';
 import 'package:DigiRestro/utils/app_color.dart';
 
 class HomeBottomSheet extends StatefulWidget {
   const HomeBottomSheet({
     super.key,
+    required this.tableNumber,
   });
-
+  final int tableNumber;
   @override
   State<HomeBottomSheet> createState() => _HomeBottomSheetState();
 }
 
 class _HomeBottomSheetState extends State<HomeBottomSheet> {
-  late TextEditingController tableNumberController;
-  @override
-  void initState() {
-    tableNumberController = TextEditingController();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        openBottomSheet(context, tableNumberController);
+        openBottomSheet(context, widget.tableNumber);
       },
       child: Container(
         height: 50,
@@ -62,7 +55,7 @@ class _HomeBottomSheetState extends State<HomeBottomSheet> {
 
   void openBottomSheet(
     BuildContext context,
-    TextEditingController tableNumberController,
+    int tableNumber,
   ) {
     showModalBottomSheet(
         context: context,
@@ -121,10 +114,10 @@ class _HomeBottomSheetState extends State<HomeBottomSheet> {
                             // Create an AlertDialog
                             return AlertDialog(
                               title: const Text('Confirmation'),
-                              content: CustomTextField(
-                                  borderSide: BorderSide(),
-                                  hintText: 'Enter the Table Number',
-                                  controller: tableNumberController),
+                              // content: CustomTextField(
+                              //     borderSide: BorderSide(),
+                              //     hintText: 'Enter the Table Number',
+                              //     controller: tableNumberController),
                               actions: [
                                 // Add buttons to the dialog
                                 TextButton(
@@ -136,8 +129,9 @@ class _HomeBottomSheetState extends State<HomeBottomSheet> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    context.read<CartCubit>().confirmOrder(
-                                        tableNumberController.text.trim());
+                                    context
+                                        .read<CartCubit>()
+                                        .confirmOrder(tableNumber.toString());
                                     Navigator.of(context).pop();
                                   },
                                   child: const Text('Confirm'),

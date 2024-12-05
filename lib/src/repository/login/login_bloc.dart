@@ -3,6 +3,7 @@
 
 import 'dart:async';
 
+import 'package:DigiRestro/src/view/home/page/table_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,7 +32,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<OnGoogleLogout>(onLogoutGoogle);
     on<OnEmailLogin>(onEmailLogin);
     on<OnEmailSignUp>(onEmailSignUp);
-    on<OnCheckLogin>(onCheckLogin);
+    // on<OnCheckLogin>(onCheckLogin);
   }
 
   Future<UserCredential?> onLoginWithGoogle(
@@ -74,7 +75,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (_) => HomePage(userCredential: userCredential)));
+            builder: (_) => TablePage(
+                  userCredential: userCredential,
+                )));
   }
 
   FutureOr<void> onEmailLogin(
@@ -113,13 +116,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  FutureOr<void> onCheckLogin(
-      OnCheckLogin event, Emitter<LoginState> emit) async {
-    var loginStatus = await preferences.getBool("IsLogin");
-    if (loginStatus == true) {
-      event.context
-          .read<LoginBloc>()
-          .add(OnGoogleLogin(context: event.context));
-    }
-  }
+  // FutureOr<void> onCheckLogin(
+  //     OnCheckLogin event, Emitter<LoginState> emit) async {
+  //   var loginStatus = await preferences.getBool("IsLogin");
+  //   if (loginStatus == true) {
+  //     event.context
+  //         .read<LoginBloc>()
+  //         .add(OnGoogleLogin(context: event.context));
+  //   }
+  // }
 }
