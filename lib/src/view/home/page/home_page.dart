@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               SliverToBoxAdapter(child: Gap(20.h)),
-            ]),
+            ]).addMargin(EdgeInsets.symmetric(horizontal: 16)),
           )),
     );
   }

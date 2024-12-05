@@ -29,8 +29,8 @@ class _TableCardGridState extends State<TableCardGrid> {
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           childAspectRatio: 1,
           crossAxisCount: 2,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 10.0),
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 14.0),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return Stack(
           children: [
@@ -39,45 +39,52 @@ class _TableCardGridState extends State<TableCardGrid> {
                 // height: 100,
                 padding: EdgeInsets.all(5),
                 // color: AppColor.forumTimeText,
-                child: Column(
-                  children: [
-                    Image.network(
-                      widget.listOfTables?[index].image == ''
-                          ? 'https://www.tasteofhome.com/wp-content/uploads/2018/01/Crispy-Fried-Chicken_EXPS_TOHJJ22_6445_DR-_02_03_11b.jpg?fit=700,700'
-                          : widget.listOfTables?[index].image ?? '',
-                      height: 100.h,
-                      width: 200.h,
-                      fit: BoxFit.cover,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomText(
-                                fontName: AppFonts.poppins,
-                                fontWeight: FontWeight.w500,
-                                size: 14.h,
-                                text: widget.listOfTables?[index].name
-                                        .toString() ??
-                                    ''),
-                            CustomText(
-                                size: 12.h,
-                                text: widget.listOfTables?[index].price
-                                        .toString() ??
-                                    ''),
-                            CustomText(
-                                size: 12.h,
-                                text: widget.listOfTables?[index].category
-                                        .toString() ??
-                                    ''),
-                          ],
-                        ),
-                        //add button here
-                      ],
-                    )
-                  ],
+                child: Container(
+                  padding: const EdgeInsets.only(left: 7, right: 2, top: 4),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                      color: Colors.green.shade50,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Column(
+                    children: [
+                      Image.network(
+                        widget.listOfTables?[index].image == ''
+                            ? 'https://www.tasteofhome.com/wp-content/uploads/2018/01/Crispy-Fried-Chicken_EXPS_TOHJJ22_6445_DR-_02_03_11b.jpg?fit=700,700'
+                            : widget.listOfTables?[index].image ?? '',
+                        height: 100.h,
+                        width: 200.h,
+                        fit: BoxFit.cover,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(
+                                  fontName: AppFonts.poppins,
+                                  fontWeight: FontWeight.w500,
+                                  size: 14.h,
+                                  text: widget.listOfTables?[index].name
+                                          .toString() ??
+                                      ''),
+                              CustomText(
+                                  size: 12.h,
+                                  text: widget.listOfTables?[index].price
+                                          .toString() ??
+                                      ''),
+                              CustomText(
+                                  size: 12.h,
+                                  text: widget.listOfTables?[index].category
+                                          .toString() ??
+                                      ''),
+                            ],
+                          ),
+                          //add button here
+                        ],
+                      )
+                    ],
+                  ),
                 )),
             Align(
               alignment: Alignment.bottomRight,
@@ -86,6 +93,14 @@ class _TableCardGridState extends State<TableCardGrid> {
                   context
                       .read<CartCubit>()
                       .addToCart(widget.listOfTables?[index]);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      duration: const Duration(milliseconds: 400),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14)),
+                      margin: const EdgeInsets.only(
+                          bottom: 20, left: 10, right: 10),
+                      content: const Text('Item added to cart')));
                 },
                 icon: Icon(
                   Icons.add_circle,
