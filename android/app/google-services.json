@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "647600423703",
+    "firebase_url": "https://menulog-5caef-default-rtdb.firebaseio.com",
+    "project_id": "menulog-5caef",
+    "storage_bucket": "menulog-5caef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647600423703:android:af3b838321e8b8d2fc6d52",
+        "android_client_info": {
+          "package_name": "com.example.digiRestro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647600423703-1ju165056epvtf5j8t2a09d1c6kdjitk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.digiRestro",
+            "certificate_hash": "77976c75e45e1d5dce0a982118741f94b4dd7acc"
+          }
+        },
+        {
+          "client_id": "647600423703-98i302lmpk613ph1ergad9hvrl73gtkr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ8m5xXaxKDgHgDt2JVNWgWB_Pml3ufoo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647600423703-98i302lmpk613ph1ergad9hvrl73gtkr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "647600423703-ss0ca057ilg634qcbmj1eqapssp795qh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.digiRestro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647600423703:android:b5d9ae4022177e34fc6d52",
+        "android_client_info": {
+          "package_name": "com.example.menu_log"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647600423703-0uopj2c6a96unpat44gv2b1kofad844t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.menu_log",
+            "certificate_hash": "8d9545625fa5db0de59fde84e99da8848c198656"
+          }
+        },
+        {
+          "client_id": "647600423703-9ot2l8ftc2h894eranfcud7kaadnjiis.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.menu_log",
+            "certificate_hash": "a5a3d4e083c35f81420254262207a443c9508b8b"
+          }
+        },
+        {
+          "client_id": "647600423703-98i302lmpk613ph1ergad9hvrl73gtkr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ8m5xXaxKDgHgDt2JVNWgWB_Pml3ufoo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647600423703-98i302lmpk613ph1ergad9hvrl73gtkr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "647600423703-ss0ca057ilg634qcbmj1eqapssp795qh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.digiRestro"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
