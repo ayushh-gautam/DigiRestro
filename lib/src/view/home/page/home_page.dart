@@ -86,9 +86,15 @@ class _HomePageState extends State<HomePage> {
               BlocBuilder<ItemsCubit, ItemsState>(
                 builder: (context, state) {
                   if (state is ItemsLoaded) {
-                    return TableCardGrid(
-                      listOfTables: state.modelList,
-                    );
+                    if (state.modelList.isEmpty) {
+                      return SliverToBoxAdapter(
+                        child: Center(child: CustomText(text: 'No menu')),
+                      );
+                    } else {
+                      return TableCardGrid(
+                        listOfTables: state.modelList,
+                      );
+                    }
                   } else {
                     return const SliverToBoxAdapter(
                       child: SizedBox.shrink(),

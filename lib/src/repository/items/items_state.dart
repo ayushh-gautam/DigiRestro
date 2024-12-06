@@ -9,6 +9,7 @@ sealed class ItemsState extends Equatable {
 
 final class ItemsInitial extends ItemsState {}
 
+
 final class ItemsLoaded extends ItemsState {
   final List<ItemModel> modelList;
   final List<String>? listOfItemIds;

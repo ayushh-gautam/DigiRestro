@@ -42,10 +42,18 @@ class _DeleteItemPageState extends State<DeleteItemPage> {
               BlocBuilder<ItemsCubit, ItemsState>(
                 builder: (context, state) {
                   if (state is ItemsLoaded) {
-                    return DeleteTableCards(
-                      itemIdList: state.listOfItemIds,
-                      listOfTables: state.modelList,
-                    );
+                    if (state.modelList.isEmpty) {
+                      return SliverToBoxAdapter(
+                        child: Center(
+                          child: CustomText(text: 'No menu to show'),
+                        ),
+                      );
+                    } else {
+                      return DeleteTableCards(
+                        itemIdList: state.listOfItemIds,
+                        listOfTables: state.modelList,
+                      );
+                    }
                   } else {
                     return const SliverToBoxAdapter(
                       child: SizedBox.shrink(),

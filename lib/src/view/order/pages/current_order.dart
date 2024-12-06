@@ -32,30 +32,39 @@ class _CurrentOrderPageState extends State<CurrentOrderPage> {
           builder: (context, state) {
             var orderData = context.read<CartCubit>().orderHistoryModel;
             var orderIds = context.read<CartCubit>().docIds;
-
-            return ListView.builder(
-              itemCount: orderData.length,
-              itemBuilder: (BuildContext context, int index) {
-                return orderData[index].orderStatus != 'Paid'
-                    ? ListTile(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => OrderDetailPage(
-                                    orderData[index], orderIds[index]),
-                              ));
-                        },
-                        title: CustomText(
-                            text:
-                                "Table Number : ${orderData[index].tableNumber ?? ''}"),
-                        trailing: CustomText(
-                            text:
-                                "Status : ${orderData[index].orderStatus ?? ''}"),
-                      )
-                    : SizedBox.shrink();
-              },
-            );
+            // final orderStatus = orderData
+            //     .where((order) =>
+            //         order.orderStatus != null && order.orderStatus!.isNotEmpty)
+            //     .toList();
+            if (orderData.isEmpty) {
+              return Center(
+                child: CustomText(text: 'No any status to show here'),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: orderData.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return orderData[index].orderStatus != 'Paid'
+                      ? ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => OrderDetailPage(
+                                      orderData[index], orderIds[index]),
+                                ));
+                          },
+                          title: CustomText(
+                              text:
+                                  "Table Number : ${orderData[index].tableNumber ?? ''}"),
+                          trailing: CustomText(
+                              text:
+                                  "Status : ${orderData[index].orderStatus ?? ''}"),
+                        )
+                      : SizedBox.shrink();
+                },
+              );
+            }
           },
         ),
       ),
