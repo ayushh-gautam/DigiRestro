@@ -108,7 +108,7 @@ class _TableCardGridState extends State<TableCardGrid> {
                   Icons.add_circle,
                   color: AppColor.subBlue,
                 ),
-                iconSize: 26,
+                iconSize: 30.h,
               ),
             )
           ],

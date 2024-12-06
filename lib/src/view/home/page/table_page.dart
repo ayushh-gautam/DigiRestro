@@ -1,7 +1,5 @@
 import 'package:DigiRestro/commons/controls/custom_button.dart';
 import 'package:DigiRestro/commons/controls/custom_text.dart';
-import 'package:DigiRestro/multi_bloc_provider.dart';
-import 'package:DigiRestro/src/repository/cart/cart_cubit.dart';
 import 'package:DigiRestro/src/repository/table/cubit/table_cubit.dart';
 import 'package:DigiRestro/src/view/home/page/home_page.dart';
 import 'package:DigiRestro/utils/app_color.dart';
@@ -11,8 +9,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TablePage extends StatefulWidget {
-  const TablePage({super.key, required this.userCredential});
-  final UserCredential userCredential;
+  const TablePage({
+    super.key,
+    this.userCredential,
+  });
+  final UserCredential? userCredential;
+  // final bool? isTableManagement;
 
   @override
   State<TablePage> createState() => _TablePageState();
@@ -47,21 +49,25 @@ class _TablePageState extends State<TablePage> {
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       onTap: () {
+                        // if the user is in table management page than user cannot go to new page
+
                         (state.bookedIds?.contains(state
                                     .tableData?[index].tableNumber
                                     .toString()) ??
                                 false)
                             ? null
-                            : Navigator.push(
+                            : Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => HomePage(
-                                    userCredential: widget.userCredential,
+                                    userCredential: widget.userCredential!,
                                     currentTableNumber:
                                         state.tableData?[index].tableNumber ??
                                             0,
                                   ),
-                                ));
+                                ),
+                                (route) => false, // Remove all routes
+                              );
                       },
                       child: ListTile(
                         tileColor: (state.bookedIds?.contains(state

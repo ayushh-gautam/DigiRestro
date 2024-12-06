@@ -1,3 +1,4 @@
+import 'package:DigiRestro/utils/app_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -59,11 +60,28 @@ class _HomePageState extends State<HomePage> {
           bottomNavigationBar: HomeBottomSheet(
             tableNumber: widget.currentTableNumber,
           ),
-          drawer: HomeDrawer(),
+          drawer: HomeDrawer(
+            userCredential: widget.userCredential,
+          ),
           body: SafeArea(
             child: CustomScrollView(slivers: [
               SliverToBoxAdapter(
-                child: CustomText(text: widget.currentTableNumber.toString()),
+                child: Container(
+                    margin: EdgeInsets.all(16.h),
+                    height: 50.h,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(12.h),
+                        ),
+                        color: AppColor.backButtonBg),
+                    alignment: Alignment.center,
+                    width: double.infinity,
+                    child: CustomText(
+                      text:
+                          "Current Table  ${widget.currentTableNumber.toString()}",
+                      fontWeight: FontWeight.w500,
+                      size: 18.h,
+                    )),
               ),
               BlocBuilder<ItemsCubit, ItemsState>(
                 builder: (context, state) {

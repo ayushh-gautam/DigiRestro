@@ -1,5 +1,7 @@
 // ignore: must_be_immutable
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:DigiRestro/src/view/home/page/table_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,8 +21,9 @@ import '../../../repository/image_pick/cubit/image_picker_cubit.dart';
 class HomeDrawer extends StatefulWidget {
   HomeDrawer({
     super.key,
+    this.userCredential,
   });
-
+  final UserCredential? userCredential;
   @override
   State<HomeDrawer> createState() => _HomeDrawerState();
 }
@@ -41,8 +44,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
   // TextEditingController tableNumberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    firebase_storage.FirebaseStorage myStorage =
-        firebase_storage.FirebaseStorage.instance;
+    // firebase_storage.FirebaseStorage myStorage =
+    //     firebase_storage.FirebaseStorage.instance;
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -57,6 +60,19 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 ));
               },
               title: CustomText(text: "Current Orders"),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return TablePage(
+                      userCredential: widget.userCredential,
+                      // isTableManagement: true,
+                    );
+                  },
+                ));
+              },
+              title: CustomText(text: "Tables/NewOrders"),
             ),
             ListTile(
               onTap: () {
@@ -97,31 +113,31 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     CustomTextField(
                       controller: nameController,
                       hintText: 'Item Name',
-                      borderSide: BorderSide(),
+                      borderSide: const BorderSide(),
                     ),
                     Gap(10.h),
                     CustomTextField(
                       hintText: 'Item Price',
                       controller: priceController,
-                      borderSide: BorderSide(),
+                      borderSide: const BorderSide(),
                     ),
                     Gap(10.h),
                     CustomTextField(
                       hintText: 'Item Category',
                       controller: categoriesController,
-                      borderSide: BorderSide(),
+                      borderSide: const BorderSide(),
                     ),
                     GestureDetector(
                       onTap: () {
                         context.read<ImagePickerCubit>().pickImage();
                       },
-                      child: Container(
+                      child: SizedBox(
                         height: 13.h,
-                        child: const Icon(
+                        child: Icon(
                           Icons.image,
-                          size: 20,
+                          size: 20.h,
                         ),
-                      ).addMargin(EdgeInsets.only(top: 40, bottom: 20)),
+                      ).addMargin(EdgeInsets.only(top: 40.h, bottom: 20.h)),
                     ),
                     BlocBuilder<ImagePickerCubit, ImagePickerState>(
                       builder: (context, state) {
@@ -133,7 +149,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             fit: BoxFit.cover,
                           );
                         } else {
-                          return SizedBox();
+                          return const SizedBox();
                         }
                       },
                     ),

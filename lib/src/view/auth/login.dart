@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:DigiRestro/commons/controls/custom_button.dart';
@@ -19,6 +20,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   @override
+
+  
   void initState() {
     // context.read<LoginBloc>().add(OnCheckLogin(context: context));
     super.initState();
@@ -32,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: CustomText(
-          letterSpacing: 3,
+          letterSpacing: 3.h,
           text: 'Login',
           size: 28,
           fontWeight: FontWeight.bold,
@@ -46,15 +49,16 @@ class _LoginPageState extends State<LoginPage> {
             text: 'Welcome to\nDigiRestro',
             letterSpacing: 1.1,
             fontWeight: FontWeight.w600,
-            size: 26,
+            size: 26.h,
             color: AppColor.black,
           ),
+          Gap(30.h),
           CustomTextField(
             controller: emailController,
             hintText: 'Enter your email',
             borderSide: BorderSide(color: AppColor.black),
           ),
-          const Gap(18),
+          Gap(18.h),
           CustomTextField(
             controller: passController,
             hintText: 'Enter your password',
@@ -63,10 +67,10 @@ class _LoginPageState extends State<LoginPage> {
               color: AppColor.black,
             ),
           ),
-          const Gap(18),
-          const Gap(10),
+          Gap(18.h),
+          Gap(10.h),
           CustomButton(
-            radius: 18,
+            radius: 18.h,
             text: 'Login',
             textColor: AppColor.white,
             onTap: () {
@@ -75,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                   password: passController.text.trim()));
             },
           ),
-          const Gap(14),
+          Gap(14.h),
           Center(child: CustomText(text: 'or continue with')),
           // Center(
           //   child: GestureDetector(
@@ -112,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
             ],
           )
         ],
-      ).addMargin(const EdgeInsets.only(left: 20, right: 20)),
+      ).addMargin(EdgeInsets.only(left: 20.h, right: 20.h)),
     );
   }
 }
