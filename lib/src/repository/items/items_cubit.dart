@@ -1,3 +1,4 @@
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,10 +29,25 @@ class ItemsCubit extends Cubit<ItemsState> {
         );
   }
 
+  /// Delete item and from Firestore database.
+  Future<void> deleteItem({
+    required String documentId,
+  }) async {
+    print(documentId);
+    await _firestore.collection('Menu').doc(documentId).delete();
+    emit(ItemsLoaded(
+        modelList: finalModel,
+        listOfItemIds: itemIds,
+        number: Random().nextInt(100)));
+  }
+
   // List<ItemModel> itemsData = [];
+  List<String> itemIds = [];
+  List<ItemModel> finalModel = [];
 
   /// Retrieve items from the Firestore database.
   Future<void> getItems() async {
+    itemIds.clear();
     var data = await _firestore.collection('Menu').get();
 
     var listIterableModel = data.docs.map((e) {
@@ -41,9 +57,19 @@ class ItemsCubit extends Cubit<ItemsState> {
       itemsData.add(data3);
       return itemsData;
     });
-    // this expand is use to get list from Iterable<List<ItemModel>>
-    var finalModel = listIterableModel.expand((element) => element).toList();
+    data.docs.forEach(
+      (element) {
+        itemIds.add(element.id);
+        print(element.id);
+      },
+    );
 
-    emit(ItemsLoaded(modelList: finalModel));
+    // this expand is use to get list from Iterable<List<ItemModel>>
+    finalModel = listIterableModel.expand((element) => element).toList();
+
+    emit(ItemsLoaded(
+        modelList: finalModel,
+        listOfItemIds: itemIds,
+        number: Random().nextInt(100)));
   }
 }

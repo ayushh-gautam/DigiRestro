@@ -1,5 +1,7 @@
 // ignore: must_be_immutable
 import 'package:DigiRestro/src/view/home/page/table_page.dart';
+import 'package:DigiRestro/src/view/home/widget/add_item_page.dart';
+import 'package:DigiRestro/src/view/home/widget/delete_item_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
@@ -29,18 +31,6 @@ class HomeDrawer extends StatefulWidget {
 }
 
 class _HomeDrawerState extends State<HomeDrawer> {
-  late TextEditingController nameController;
-  late TextEditingController priceController;
-  late TextEditingController categoriesController;
-
-  @override
-  void initState() {
-    nameController = TextEditingController();
-    priceController = TextEditingController();
-    categoriesController = TextEditingController();
-    super.initState();
-  }
-
   // TextEditingController tableNumberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -51,40 +41,29 @@ class _HomeDrawerState extends State<HomeDrawer> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            ListTile(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return CurrentOrderPage();
-                  },
-                ));
-              },
-              title: CustomText(text: "Current Orders"),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return TablePage(
-                      userCredential: widget.userCredential,
-                      // isTableManagement: true,
-                    );
-                  },
-                ));
-              },
-              title: CustomText(text: "Tables/NewOrders"),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return OrderHistoryPage();
-                  },
-                ));
-              },
-              title: CustomText(text: "Order History"),
-            ),
-            createItem(context),
+            createItem(
+                context: context,
+                navigateTo: CurrentOrderPage(),
+                title: "Current Orders"),
+            createItem(
+                context: context,
+                navigateTo: TablePage(
+                  userCredential: widget.userCredential,
+                  // isTableManagement: true,
+                ),
+                title: "Tables/NewOrders"),
+            createItem(
+                context: context,
+                navigateTo: OrderHistoryPage(),
+                title: "Order History"),
+            createItem(
+                context: context,
+                navigateTo: AddItemPage(),
+                title: 'Add Item To Menu'),
+            createItem(
+                context: context,
+                navigateTo: DeleteItemPage(),
+                title: 'Delete Item From Menu'),
             ListTile(
               title: CustomText(text: 'Log Out'),
               onTap: () {
@@ -98,98 +77,19 @@ class _HomeDrawerState extends State<HomeDrawer> {
     );
   }
 
-  ListTile createItem(BuildContext context) {
+  ListTile createItem(
+      {required BuildContext context,
+      required Widget navigateTo,
+      required String title}) {
     return ListTile(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: CustomText(text: 'Create Table'),
-              content: SizedBox(
-                height: 400.h,
-                child: Column(
-                  children: [
-                    CustomTextField(
-                      controller: nameController,
-                      hintText: 'Item Name',
-                      borderSide: const BorderSide(),
-                    ),
-                    Gap(10.h),
-                    CustomTextField(
-                      hintText: 'Item Price',
-                      controller: priceController,
-                      borderSide: const BorderSide(),
-                    ),
-                    Gap(10.h),
-                    CustomTextField(
-                      hintText: 'Item Category',
-                      controller: categoriesController,
-                      borderSide: const BorderSide(),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        context.read<ImagePickerCubit>().pickImage();
-                      },
-                      child: SizedBox(
-                        height: 13.h,
-                        child: Icon(
-                          Icons.image,
-                          size: 20.h,
-                        ),
-                      ).addMargin(EdgeInsets.only(top: 40.h, bottom: 20.h)),
-                    ),
-                    BlocBuilder<ImagePickerCubit, ImagePickerState>(
-                      builder: (context, state) {
-                        if (state is ImagePickerPicked) {
-                          return Image.file(
-                            state.myFile,
-                            height: 150,
-                            width: 150,
-                            fit: BoxFit.cover,
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      },
-                    ),
-                    Gap(10.h),
-                    BlocBuilder<ImagePickerCubit, ImagePickerState>(
-                      builder: (context, state) {
-                        return CustomButton(
-                          onTap: () async {
-                            if (state is ImagePickerPicked) {
-                              //
-                              await context
-                                  .read<ImagePickerCubit>()
-                                  .uploadImage(state.myFile)
-                                  .then((value) => context
-                                      .read<ItemsCubit>()
-                                      .createItems(
-                                          nameController.text.trim(),
-                                          categoriesController.text.trim(),
-                                          priceController.text
-                                              .trim()
-                                              .toString(),
-                                          value));
-                            }
-                            Navigator.pop(context);
-                          },
-                          text: 'Save',
-                          height: 50,
-                          width: 150,
-                          textColor: AppColor.white,
-                        );
-                      },
-                    )
-                  ],
-                ),
-              ),
-            );
-          },
-        );
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => navigateTo,
+            ));
       },
-      title: CustomText(text: 'Add item to menu'),
+      title: CustomText(text: title),
     );
   }
 }

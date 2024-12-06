@@ -128,10 +128,12 @@ class _HomeBottomSheetState extends State<HomeBottomSheet> {
                                   child: const Text('Cancel'),
                                 ),
                                 TextButton(
-                                  onPressed: () {
-                                    context
+                                  onPressed: () async {
+                                    await context
                                         .read<CartCubit>()
                                         .confirmOrder(tableNumber.toString());
+                                    Navigator.of(context).pop();
+                                    await context.read<CartCubit>().removeAll();
                                     Navigator.of(context).pop();
                                   },
                                   child: const Text('Confirm'),
