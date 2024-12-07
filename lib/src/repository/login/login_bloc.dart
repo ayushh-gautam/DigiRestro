@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:DigiRestro/core/preferences/preferences.dart';
@@ -28,47 +29,47 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     this._googleSignIn,
     this.preferences,
   ) : super(LoginInitial()) {
-    on<OnGoogleLogin>(onLoginWithGoogle);
-    on<OnGoogleLogout>(onLogoutGoogle);
+    // on<OnGoogleLogin>(onLoginWithGoogle);
+    // on<OnGoogleLogout>(onLogoutGoogle);
     on<OnEmailLogin>(onEmailLogin);
     on<OnEmailSignUp>(onEmailSignUp);
     // on<OnCheckLogin>(onCheckLogin);
   }
 
-  Future<UserCredential?> onLoginWithGoogle(
-      OnGoogleLogin event, Emitter<LoginState> emit) async {
-    try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+  // Future<UserCredential?> onLoginWithGoogle(
+  //     OnGoogleLogin event, Emitter<LoginState> emit) async {
+  //   try {
+  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+  //     final GoogleSignInAuthentication? googleAuth =
+  //         await googleUser?.authentication;
 
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
+  //     final credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth?.accessToken,
+  //       idToken: googleAuth?.idToken,
+  //     );
 
-      var data = await _auth
-          .signInWithCredential(credential)
-          .then((value) => toHomePage(event.context, value));
+  //     var data = await _auth
+  //         .signInWithCredential(credential)
+  //         .then((value) => toHomePage(event.context, value));
 
-      return data;
-    } on Exception catch (e) {
-      if (kDebugMode) {
-        print('exception->$e');
-      }
-      return null;
-    }
-  }
+  //     return data;
+  //   } on Exception catch (e) {
+  //     if (kDebugMode) {
+  //       print('exception->$e');
+  //     }
+  //     return null;
+  //   }
+  // }
 
-  FutureOr<void> onLogoutGoogle(
-      OnGoogleLogout event, Emitter<LoginState> emit) async {
-    await _googleSignIn.signOut();
-    await _auth.signOut();
-    preferences.setBool('IsLogin', false);
-    Navigator.pushReplacement(
-        event.context, MaterialPageRoute(builder: (_) => LoginPage()));
-  }
+  // FutureOr<void> onLogoutGoogle(
+  //     OnGoogleLogout event, Emitter<LoginState> emit) async {
+  //   await _googleSignIn.signOut();
+  //   await _auth.signOut();
+  //   preferences.setBool('IsLogin', false);
+  //   Navigator.pushReplacement(
+  //       event.context, MaterialPageRoute(builder: (_) => LoginPage()));
+  // }
 
   toHomePage(BuildContext context, UserCredential userCredential) {
     preferences.setBool('IsLogin', true);
@@ -82,6 +83,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   FutureOr<void> onEmailLogin(
       OnEmailLogin event, Emitter<LoginState> emit) async {
+    emit(LoginLoading());
     try {
       var userCredential = await _auth.signInWithEmailAndPassword(
           email: event.email, password: event.password);
@@ -96,23 +98,39 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         "email": userCredential.user?.email,
         "name": userCredential.user?.displayName,
       });
+      emit(LoginSuccess(userCredential.user?.email ?? ''));
       await toHomePage(event.context, userCredential);
     } on FirebaseAuthException catch (e) {
       if (kDebugMode) {
         print(e);
       }
+      emit(LoginFailure(e.code));
+      Fluttertoast.showToast(
+        msg: e.code,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        fontSize: 18.0,
+      );
     }
   }
 
   FutureOr<void> onEmailSignUp(
       OnEmailSignUp event, Emitter<LoginState> emit) async {
+    emit(LoginLoading());
     try {
       var userCredential = await _auth.createUserWithEmailAndPassword(
           email: event.email, password: event.password);
       print(userCredential);
+      emit(LoginSuccess(userCredential.user?.email ?? ''));
       await toHomePage(event.context, userCredential);
     } on FirebaseAuthException catch (e) {
       print(e);
+      emit(LoginFailure(e.code));
+      Fluttertoast.showToast(
+          msg: e.code,
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          fontSize: 18);
     }
   }
 

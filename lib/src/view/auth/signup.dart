@@ -66,7 +66,21 @@ class _SignUpState extends State<SignUp> {
           const Gap(10),
           CustomButton(
             radius: 18,
-            text: 'Signup',
+            widget:
+                BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+              if (state is LoginLoading) {
+                return const CircularProgressIndicator(
+                  color: Colors.white,
+                );
+              } else {
+                return CustomText(
+                  text: 'SignUp',
+                  color: AppColor.white,
+                  fontWeight: FontWeight.w700,
+                  size: 20,
+                );
+              }
+            }),
             textColor: AppColor.white,
             onTap: () {
               if (passController.text.trim() ==
@@ -79,18 +93,18 @@ class _SignUpState extends State<SignUp> {
             },
           ),
           const Gap(14),
-          Center(child: CustomText(text: 'or signup with')),
-          Center(
-            child: GestureDetector(
-              onTap: () {
-                context.read<LoginBloc>().add(OnGoogleLogin(context: context));
-              },
-              child: SvgPicture.asset(
-                'lib/commons/assets/google.svg',
-                height: 80,
-              ),
-            ),
-          ),
+          // Center(child: CustomText(text: 'or signup with')),
+          // Center(
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       context.read<LoginBloc>().add(OnGoogleLogin(context: context));
+          //     },
+          //     child: SvgPicture.asset(
+          //       'lib/commons/assets/google.svg',
+          //       height: 80,
+          //     ),
+          //   ),
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

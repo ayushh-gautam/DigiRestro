@@ -20,8 +20,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   @override
-
-  
   void initState() {
     // context.read<LoginBloc>().add(OnCheckLogin(context: context));
     super.initState();
@@ -71,7 +69,21 @@ class _LoginPageState extends State<LoginPage> {
           Gap(10.h),
           CustomButton(
             radius: 18.h,
-            text: 'Login',
+            widget:
+                BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+              if (state is LoginLoading) {
+                return const CircularProgressIndicator(
+                  color: Colors.white,
+                );
+              } else {
+                return CustomText(
+                  text: 'Login',
+                  color: AppColor.white,
+                  fontWeight: FontWeight.w700,
+                  size: 20,
+                );
+              }
+            }),
             textColor: AppColor.white,
             onTap: () {
               context.read<LoginBloc>().add(OnEmailLogin(context,
@@ -80,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
             },
           ),
           Gap(14.h),
-          Center(child: CustomText(text: 'or continue with')),
+          // Center(child: CustomText(text: 'or continue with')),
           // Center(
           //   child: GestureDetector(
           //     onTap: () {
