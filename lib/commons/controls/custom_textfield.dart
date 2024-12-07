@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/app_color.dart';
-import '../../utils/dimension.dart';
+
 
 class CustomTextField extends StatefulWidget {
   final bool? obscureText;
@@ -38,7 +38,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       validator: widget.validator,
       decoration: InputDecoration(
         prefixIcon: widget.prefix,
-        contentPadding: const EdgeInsets.all(AppPadding.p10),
+        contentPadding: const EdgeInsets.all(10),
         hintText: widget.hintText,
         helperStyle: TextStyle(
           fontSize: 20,

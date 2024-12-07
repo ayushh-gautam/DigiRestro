@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/app_color.dart';
-import '../../utils/dimension.dart';
 
 class CustomButton extends StatelessWidget {
   final VoidCallback? onTap;
@@ -70,7 +69,7 @@ class CustomButton extends StatelessWidget {
                 style: TextStyle(
                   fontSize: fontSize ?? 20,
                   color: textColor ?? AppColor.black,
-                  fontWeight: fontWeight ?? FontWeightManager.bold,
+                  fontWeight: fontWeight ?? FontWeight.bold,
                 ),
               )
             : widget);
