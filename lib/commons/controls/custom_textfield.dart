@@ -8,7 +8,7 @@ import '../../utils/dimension.dart';
 class CustomTextField extends StatefulWidget {
   final bool? obscureText;
   final TextEditingController controller;
-  final String Function(String?)? validator;
+  final FormFieldValidator<String>? validator;
   final Widget? prefix;
   final String? hintText;
   final BorderSide? borderSide;

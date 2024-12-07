@@ -12,8 +12,11 @@ class TableCubit extends Cubit<TableState> {
   TableCubit({required this.firestore}) : super(TableState());
   final FirebaseFirestore firestore;
 
-  Future setTableInfo() async {
-    await firestore.collection('table').doc().set({"table_number": 10});
+  Future setTableInfo(int tableNumber) async {
+    await firestore
+        .collection('table')
+        .doc()
+        .set({"table_number": tableNumber});
     print('sett');
     return true;
   }

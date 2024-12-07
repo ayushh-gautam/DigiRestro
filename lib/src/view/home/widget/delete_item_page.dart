@@ -2,6 +2,7 @@ import 'package:DigiRestro/utils/string_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:DigiRestro/commons/controls/custom_text.dart';
@@ -147,10 +148,15 @@ class _DeleteTableCardsState extends State<DeleteTableCards> {
               alignment: Alignment.bottomRight,
               child: IconButton(
                 onPressed: () async {
+                  EasyLoading.show(
+                      indicator: CircularProgressIndicator(),
+                      maskType: EasyLoadingMaskType.clear,
+                      dismissOnTap: false);
                   await context
                       .read<ItemsCubit>()
                       .deleteItem(documentId: widget.itemIdList?[index] ?? '');
-                  context.read<ItemsCubit>().getItems();
+                  await context.read<ItemsCubit>().getItems();
+                  EasyLoading.dismiss();
                 },
                 icon: Icon(
                   Icons.remove_circle,
