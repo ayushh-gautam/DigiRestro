@@ -30,7 +30,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     this.preferences,
   ) : super(LoginInitial()) {
     // on<OnGoogleLogin>(onLoginWithGoogle);
-    // on<OnGoogleLogout>(onLogoutGoogle);
+    on<OnGoogleLogout>(onLogoutGoogle);
     on<OnEmailLogin>(onEmailLogin);
     on<OnEmailSignUp>(onEmailSignUp);
     // on<OnCheckLogin>(onCheckLogin);
@@ -62,14 +62,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   //   }
   // }
 
-  // FutureOr<void> onLogoutGoogle(
-  //     OnGoogleLogout event, Emitter<LoginState> emit) async {
-  //   await _googleSignIn.signOut();
-  //   await _auth.signOut();
-  //   preferences.setBool('IsLogin', false);
-  //   Navigator.pushReplacement(
-  //       event.context, MaterialPageRoute(builder: (_) => LoginPage()));
-  // }
+  FutureOr<void> onLogoutGoogle(
+      OnGoogleLogout event, Emitter<LoginState> emit) async {
+    await _googleSignIn.signOut();
+    await _auth.signOut();
+    preferences.setBool('IsLogin', false);
+    Navigator.pushReplacement(
+        event.context, MaterialPageRoute(builder: (_) => LoginPage()));
+  }
 
   toHomePage(BuildContext context, UserCredential userCredential) {
     preferences.setBool('IsLogin', true);
