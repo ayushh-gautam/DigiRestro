@@ -110,8 +110,8 @@ class _SignUpState extends State<SignUp> {
                   return CustomText(
                     text: 'SignUp',
                     color: AppColor.white,
-                    fontWeight: FontWeight.w700,
-                    size: 20,
+                    fontWeight: FontWeight.bold,
+                    size: 28,
                   );
                 }
               }),
