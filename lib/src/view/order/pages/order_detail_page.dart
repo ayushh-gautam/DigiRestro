@@ -26,7 +26,7 @@ class OrderDetailPage extends StatelessWidget {
                 context.read<CartCubit>().finishOrder(orderId);
               },
             ).addMargin(EdgeInsets.symmetric(horizontal: 10.h))
-          : SizedBox(),
+          : const SizedBox(),
       body: SizedBox(
         height: 800.h,
         child: Column(
@@ -44,7 +44,7 @@ class OrderDetailPage extends StatelessWidget {
                 );
               },
             ),
-            Divider(
+            const Divider(
               height: 1,
             ),
             Row(

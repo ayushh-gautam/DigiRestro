@@ -32,10 +32,7 @@ class _CurrentOrderPageState extends State<CurrentOrderPage> {
           builder: (context, state) {
             var orderData = context.read<CartCubit>().orderHistoryModel;
             var orderIds = context.read<CartCubit>().docIds;
-            // final orderStatus = orderData
-            //     .where((order) =>
-            //         order.orderStatus != null && order.orderStatus!.isNotEmpty)
-            //     .toList();
+       
             if (orderData.isEmpty) {
               return Center(
                 child: CustomText(text: 'No any status to show here'),
