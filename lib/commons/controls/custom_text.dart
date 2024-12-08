@@ -18,6 +18,7 @@ class CustomText extends StatelessWidget {
     this.fontWeight,
     this.fontStyle,
     this.textDecoration,
+    this.overflow,
   }) : super(key: key);
   //initializing variables
   final String text;
@@ -30,13 +31,14 @@ class CustomText extends StatelessWidget {
   final FontWeight? fontWeight;
   final FontStyle? fontStyle;
   final TextDecoration? textDecoration;
+  final TextOverflow? overflow;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Text(
-        
         text,
+        overflow: overflow,
         maxLines: maxLines ?? 7,
         style: fontName == AppFonts.poppins
             ? GoogleFonts.poppins(
@@ -63,7 +65,6 @@ class CustomText extends StatelessWidget {
                         decorationColor: Colors.blue,
                         fontWeight: fontWeight)
                     : TextStyle(
-                      
                         letterSpacing: letterSpacing ?? 0,
                         color: color ?? Theme.of(context).primaryColor,
                         fontSize: size ?? 18,

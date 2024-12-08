@@ -5,6 +5,8 @@ import 'package:DigiRestro/src/model/table_mode.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 part 'table_state.dart';
 
@@ -21,23 +23,54 @@ class TableCubit extends Cubit<TableState> {
     return true;
   }
 
+// we would have done  normal get table data but we wouldn't end up getting the id of that doc
+//so we did this to insure the doc is with the model
+// this will help us while deleting or editing the table
   Future<void> getTables() async {
     var data = await firestore.collection('table').get();
 
-    var listIterableModel = data.docs.map((e) {
-      List<TableModel> tableData = [];
+    // Map documents to TableModel instances
+    var tableData = data.docs.map((doc) {
+      return TableModel(
+        tableId: doc.id, // Set the document ID as tableId
+        tableNumber: doc.data()["table_number"], // Extract table_number field
+      );
+    }).toList();
 
-      var data3 = TableModel.fromJson(e.data());
-      tableData.add(data3);
-      return tableData;
-    });
-    // this expand is use to get list from Iterable<List<ItemModel>>
-    var finalModel = listIterableModel.expand((element) => element).toList();
-
+    // Emit the final data
     emit(
-        state.copyWith(tableStatus: TableStatus.loaded, tableData: finalModel));
+      state.copyWith(
+        tableStatus: TableStatus.loaded,
+        tableData: tableData, // Final list of TableModel
+      ),
+    );
   }
 
+//for deleting the specific table
+  Future<void> deleteTable(String tableId) async {
+    EasyLoading.show(
+        indicator: CircularProgressIndicator(),
+        maskType: EasyLoadingMaskType.clear,
+        dismissOnTap: false);
+    try {
+      // Delete the document from the 'table' collection
+      await firestore.collection('table').doc(tableId).delete();
+
+      // Optionally, log success or notify the user
+      print("Table with ID $tableId successfully deleted.");
+
+      // Emit updated state if necessary
+      // You might want to reload the table data after deletion
+      await getTables(); // Re-fetch updated table data
+      EasyLoading.dismiss();
+    } catch (e) {
+      EasyLoading.dismiss();
+      // Handle errors
+      print("Failed to delete table with ID $tableId: $e");
+    }
+  }
+
+//
   List<String> docIds = [];
   List<String> bookedIds = [];
 

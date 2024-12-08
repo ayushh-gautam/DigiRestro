@@ -11,17 +11,21 @@ String tableModelToJson(List<TableModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class TableModel {
+  String? tableId;
   int? tableNumber;
 
   TableModel({
+    this.tableId,
     this.tableNumber,
   });
 
   factory TableModel.fromJson(Map<String, dynamic> json) => TableModel(
+        tableId: json["table_id"],
         tableNumber: json["table_number"],
       );
 
   Map<String, dynamic> toJson() => {
+        "table_id": tableId,
         "table_number": tableNumber,
       };
 }

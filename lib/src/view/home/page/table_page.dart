@@ -41,6 +41,55 @@ class _TablePageState extends State<TablePage> {
     );
   }
 
+  Future<void> _confirmAndDeleteTable(String tableId) async {
+    final result = await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Delete Table"),
+          content: const Text(
+              "Are you sure you want to delete this table? This action cannot be undone."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // Cancel the deletion
+              },
+              child: const Text("Cancel"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // Confirm the deletion
+              },
+              child: const Text("Delete"),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (result == true) {
+      // User confirmed deletion
+      context.read<TableCubit>().deleteTable(tableId).then(
+        (value) {
+          context.read<TableCubit>().getTables();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text("Table has been deleted successfully!"),
+              backgroundColor: Colors.red,
+            ),
+          );
+        },
+      ).catchError((error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text("Failed to delete table."),
+            backgroundColor: Colors.red,
+          ),
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,8 +173,8 @@ class _TablePageState extends State<TablePage> {
                       color: AppColor.primaryBlue,
                     ),
                   )
-                : (state.tableData?.length == 0)
-                    ? Center(child: CustomText(text: 'No tables Add one'))
+                : (state.tableData?.isEmpty ?? true)
+                    ? Center(child: CustomText(text: 'No tables. Add one!'))
                     : Column(
                         children: [
                           Expanded(
@@ -140,7 +189,6 @@ class _TablePageState extends State<TablePage> {
                                   ),
                                   itemCount: state.tableData?.length ?? 0,
                                   itemBuilder: (context, index) {
-                                    // Sort the table data based on tableNumber before building the grid
                                     final sortedTableData = state.tableData!
                                       ..sort((a, b) =>
                                           a.tableNumber
@@ -151,37 +199,57 @@ class _TablePageState extends State<TablePage> {
                                             table.tableNumber.toString()) ??
                                         false;
 
-                                    return GestureDetector(
-                                      onTap: isBooked
-                                          ? null
-                                          : () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      HomePage(
-                                                    userCredential:
-                                                        widget.userCredential!,
-                                                    currentTableNumber:
-                                                        table.tableNumber ?? 0,
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                      child: Card(
-                                        elevation: 4,
-                                        color: isBooked
-                                            ? Colors.red.shade300
-                                            : Colors.green.shade300,
-                                        child: Center(
-                                          child: CustomText(
-                                            text: "Table ${table.tableNumber}",
-                                            color: Colors.white,
-                                            size: 20,
-                                            fontWeight: FontWeight.bold,
+                                    return Stack(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: isBooked
+                                              ? null
+                                              : () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          HomePage(
+                                                        userCredential: widget
+                                                            .userCredential!,
+                                                        currentTableNumber:
+                                                            table.tableNumber ??
+                                                                0,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                          child: Card(
+                                            elevation: 4,
+                                            color: isBooked
+                                                ? Colors.red.shade300
+                                                : Colors.green.shade300,
+                                            child: Center(
+                                              child: CustomText(
+                                                text:
+                                                    "Table ${table.tableNumber}",
+                                                color: Colors.white,
+                                                size: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                        Positioned(
+                                          top: 8,
+                                          right: 8,
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: Colors.white,
+                                            ),
+                                            onPressed: () {
+                                              _confirmAndDeleteTable(
+                                                  table.tableId ?? "");
+                                            },
+                                          ),
+                                        ),
+                                      ],
                                     );
                                   },
                                 )),

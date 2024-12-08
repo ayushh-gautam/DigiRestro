@@ -115,28 +115,36 @@ class _DeleteTableCardsState extends State<DeleteTableCards> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Gap(4.h),
-                          CustomText(
-                              fontName: AppFonts.poppins,
-                              fontWeight: FontWeight.w500,
-                              size: 14.h,
-                              text:
-                                  widget.listOfTables?[index].name.toString() ??
-                                      ''),
-                          CustomText(
-                              size: 12.h,
-                              text: widget.listOfTables?[index].price
-                                      .toString() ??
-                                  ''),
-                          CustomText(
-                              size: 12.h,
-                              text: widget.listOfTables?[index].category
-                                      .toString() ??
-                                  ''),
-                        ],
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Gap(4.h),
+                            CustomText(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                fontName: AppFonts.poppins,
+                                fontWeight: FontWeight.w500,
+                                size: 14.h,
+                                text: widget.listOfTables?[index].name
+                                        .toString() ??
+                                    ''),
+                            CustomText(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                size: 12.h,
+                                text: widget.listOfTables?[index].price
+                                        .toString() ??
+                                    ''),
+                            CustomText(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                size: 12.h,
+                                text: widget.listOfTables?[index].category
+                                        .toString() ??
+                                    ''),
+                          ],
+                        ),
                       ),
                       //add button here
                     ],
