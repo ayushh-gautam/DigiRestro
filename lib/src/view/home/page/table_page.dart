@@ -189,6 +189,7 @@ class _TablePageState extends State<TablePage> {
                                   ),
                                   itemCount: state.tableData?.length ?? 0,
                                   itemBuilder: (context, index) {
+                                    // this is for sorting table number in ascending order
                                     final sortedTableData = state.tableData!
                                       ..sort((a, b) =>
                                           a.tableNumber

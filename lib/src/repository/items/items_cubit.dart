@@ -33,6 +33,7 @@ class ItemsCubit extends Cubit<ItemsState> {
   Future<void> deleteItem({
     required String documentId,
   }) async {
+    
     print(documentId);
     await _firestore.collection('Menu').doc(documentId).delete();
     emit(ItemsLoaded(

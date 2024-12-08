@@ -63,7 +63,7 @@ class _DeleteItemPageState extends State<DeleteItemPage> {
                 },
               ),
               SliverToBoxAdapter(child: Gap(20.h)),
-            ]).addMargin(EdgeInsets.symmetric(horizontal: 16)),
+            ]).addMargin(const EdgeInsets.symmetric(horizontal: 16)),
           )),
     );
   }
@@ -133,9 +133,8 @@ class _DeleteTableCardsState extends State<DeleteTableCards> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 size: 12.h,
-                                text: widget.listOfTables?[index].price
-                                        .toString() ??
-                                    ''),
+                                text:
+                                    "Rs: ${widget.listOfTables?[index].price.toString() ?? ''}"),
                             CustomText(
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -157,7 +156,7 @@ class _DeleteTableCardsState extends State<DeleteTableCards> {
               child: IconButton(
                 onPressed: () async {
                   EasyLoading.show(
-                      indicator: CircularProgressIndicator(),
+                      indicator: const CircularProgressIndicator(),
                       maskType: EasyLoadingMaskType.clear,
                       dismissOnTap: false);
                   await context
@@ -166,7 +165,7 @@ class _DeleteTableCardsState extends State<DeleteTableCards> {
                   await context.read<ItemsCubit>().getItems();
                   EasyLoading.dismiss();
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.remove_circle,
                   color: Colors.redAccent,
                 ),

@@ -114,6 +114,7 @@ class _AddItemPageState extends State<AddItemPage> {
                           .then(
                         (value) {
                           EasyLoading.dismiss();
+                        
                         },
                       );
                     }
