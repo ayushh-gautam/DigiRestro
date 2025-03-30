@@ -16,7 +16,10 @@ class OrderDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title:
+            CustomText(text: "Table number : ${orderData.tableNumber ?? ''}"),
+      ),
       bottomNavigationBar: orderData.orderStatus != 'Paid'
           ? CustomButton(
               text: 'Complete Order',
@@ -32,6 +35,9 @@ class OrderDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            CustomText(text: 'Ordered By : ${orderData.orderBy ?? 'Unknown'}')
+                .addMargin(EdgeInsets.all(16.h)),
+            Divider(),
             ListView.builder(
               shrinkWrap: true,
               itemCount: orderData.itemModel?.length,

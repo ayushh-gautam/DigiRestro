@@ -33,6 +33,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<OnGoogleLogout>(onLogoutGoogle);
     on<OnEmailLogin>(onEmailLogin);
     on<OnEmailSignUp>(onEmailSignUp);
+  
     // on<OnCheckLogin>(onCheckLogin);
   }
   FutureOr<void> onLogoutGoogle(
@@ -63,7 +64,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (kDebugMode) {
         print(userCredential);
       }
-
+      preferences.setString('USER_NAME', event.email);
       FirebaseFirestore.instance
           .collection('User')
           .doc(userCredential.user?.email)
@@ -116,4 +117,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   //         .add(OnGoogleLogin(context: event.context));
   //   }
   // }
+
+
 }

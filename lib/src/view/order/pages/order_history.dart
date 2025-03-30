@@ -1,3 +1,4 @@
+import 'package:DigiRestro/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:DigiRestro/commons/controls/custom_text.dart';
@@ -33,6 +34,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
             itemCount: orderData.length,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
+                shape: Border(
+                  bottom: BorderSide(color: AppColor.black),
+                ),
                 onTap: () {
                   Navigator.push(
                       context,

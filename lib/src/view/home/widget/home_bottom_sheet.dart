@@ -1,4 +1,5 @@
 import 'package:DigiRestro/commons/controls/custom_text.dart';
+import 'package:DigiRestro/core/preferences/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +20,22 @@ class HomeBottomSheet extends StatefulWidget {
 }
 
 class _HomeBottomSheetState extends State<HomeBottomSheet> {
+  String? userName = 'User';
+  Future<String?> getUsername() async {
+    var username = await Preferences.instance.getString('USER_NAME');
+    userName = username;
+    return username;
+  }
+
+  @override
+  void initState() {
+    getUsername().then((s) {
+      setState(() {});
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CartCubit, CartState>(
@@ -159,7 +176,8 @@ class _HomeBottomSheetState extends State<HomeBottomSheet> {
                                   onPressed: () async {
                                     await context
                                         .read<CartCubit>()
-                                        .confirmOrder(tableNumber.toString());
+                                        .confirmOrder(
+                                            tableNumber.toString(), userName);
                                     Navigator.of(context).pop();
                                     await context.read<CartCubit>().removeAll();
                                     Navigator.of(context).pop();

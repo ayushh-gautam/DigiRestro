@@ -51,10 +51,11 @@ class CartCubit extends Cubit<CartState> {
   }
 
   /// Confirms the order by saving it to the Firestore database.
-  Future confirmOrder(String tableNumber) async {
+  Future confirmOrder(String tableNumber, userEmail) async {
     _firestore.collection('OrderHistory').doc().set({
       "tableNumber": tableNumber,
       "orderStatus": "pending",
+      "orderBy": userEmail,
       "ItemList":
           cartList.map((e) => e.toJson()) // Converts cart items to JSON.
     });

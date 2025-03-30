@@ -37,7 +37,7 @@ class _CurrentOrderPageState extends State<CurrentOrderPage> {
             var orderIds = context.read<CartCubit>().docIds;
 
             if (orderData.isEmpty) {
-              return Center(
+              return const Center(
                 child: Text(
                   'No orders available at the moment.',
                   style: TextStyle(
@@ -45,45 +45,53 @@ class _CurrentOrderPageState extends State<CurrentOrderPage> {
                 ),
               );
             } else {
-              return ListView.builder(
-                padding: EdgeInsets.all(16), // Added padding for better spacing
-                itemCount: orderData.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var order = orderData[index];
-                  var orderId = orderIds[index];
-                  return order.orderStatus != 'Paid'
-                      ? Card(
-                          margin: EdgeInsets.symmetric(
-                              vertical: 8), // Card margin for spacing
-                          elevation: 5, // Shadow for the card
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                12), // Rounded corners for cards
-                          ),
-                          child: ListTile(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      OrderDetailPage(order, orderId),
-                                ),
-                              );
-                            },
-                            contentPadding: EdgeInsets.all(
-                                16), // Padding inside the list tile
-                            leading: Icon(Icons.receipt_long,
-                                color: AppColor.primaryBlue), // Added an icon
-                            title: Text(
-                                "Table Number: ${order.tableNumber ?? 'N/A'}",
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            subtitle: Text(
-                                "Status: ${order.orderStatus ?? 'Unknown'}",
-                                style: TextStyle(color: Colors.grey[600])),
-                          ),
-                        )
-                      : SizedBox.shrink();
-                },
+              return Column(
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    padding:
+                        EdgeInsets.all(16), // Added padding for better spacing
+                    itemCount: orderData.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var order = orderData[index];
+                      var orderId = orderIds[index];
+                      return order.orderStatus != 'Paid'
+                          ? Card(
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 8), // Card margin for spacing
+                              elevation: 5, // Shadow for the card
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    12), // Rounded corners for cards
+                              ),
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          OrderDetailPage(order, orderId),
+                                    ),
+                                  );
+                                },
+                                contentPadding: const EdgeInsets.all(
+                                    16), // Padding inside the list tile
+                                leading: Icon(Icons.receipt_long,
+                                    color:
+                                        AppColor.primaryBlue), // Added an icon
+                                title: Text(
+                                    "Table Number: ${order.tableNumber ?? 'N/A'}",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                subtitle: Text(
+                                    "Status: ${order.orderStatus ?? 'Unknown'} \nOrdered by : ${order.orderBy ?? 'Unknown'}",
+                                    style: TextStyle(color: Colors.grey[600])),
+                              ),
+                            )
+                          : SizedBox.shrink();
+                    },
+                  ),
+                ],
               );
             }
           },

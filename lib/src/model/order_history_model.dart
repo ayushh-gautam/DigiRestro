@@ -14,17 +14,16 @@ class OrderHistoryModel {
   String? tableNumber;
   String? orderStatus;
   List<ItemModel>? itemModel;
+  String? orderBy;
 
-  OrderHistoryModel({
-    this.tableNumber,
-    this.orderStatus,
-    this.itemModel,
-  });
+  OrderHistoryModel(
+      {this.tableNumber, this.orderStatus, this.itemModel, this.orderBy});
 
   factory OrderHistoryModel.fromJson(Map<String, dynamic> json) =>
       OrderHistoryModel(
         tableNumber: json["tableNumber"],
         orderStatus: json["orderStatus"],
+        orderBy: json["orderBy"],
         itemModel: json["ItemList"] == null
             ? []
             : List<ItemModel>.from(
@@ -34,6 +33,7 @@ class OrderHistoryModel {
   Map<String, dynamic> toJson() => {
         "tableNumber": tableNumber,
         "orderStatus": orderStatus,
+        "orderBy": orderBy,
         "ItemList": itemModel == null
             ? []
             : List<dynamic>.from(itemModel!.map((x) => x.toJson())),

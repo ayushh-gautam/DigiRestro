@@ -1,4 +1,5 @@
 // ignore: must_be_immutable
+import 'package:DigiRestro/core/preferences/preferences.dart';
 import 'package:DigiRestro/src/view/home/page/table_page.dart';
 import 'package:DigiRestro/src/view/home/widget/add_item_page.dart';
 import 'package:DigiRestro/src/view/home/widget/delete_item_page.dart';
@@ -31,47 +32,97 @@ class HomeDrawer extends StatefulWidget {
 }
 
 class _HomeDrawerState extends State<HomeDrawer> {
+  String? userName = 'User';
+  Future<String?> getUsername() async {
+    var username = await Preferences.instance.getString('USER_NAME');
+    userName = username;
+    return username;
+  }
+
+  @override
+  void initState() {
+    getUsername().then((s) {
+      setState(() {});
+    });
+
+    super.initState();
+  }
+
   // TextEditingController tableNumberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // firebase_storage.FirebaseStorage myStorage =
     //     firebase_storage.FirebaseStorage.instance;
-    return Drawer(
-      child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            createItem(
-                context: context,
-                navigateTo: CurrentOrderPage(),
-                title: "Current Orders"),
-            createItem(
-                context: context,
-                navigateTo: TablePage(
-                  userCredential: widget.userCredential,
-                  // isTableManagement: true,
+    return SafeArea(
+      child: Drawer(
+        shape: Border(),
+        child: Container(
+          color: AppColor.newPrimary,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                height: 150.h,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomText(
+                      text: 'Welcome',
+                      color: AppColor.white,
+                      fontWeight: FontWeight.w600,
+                      size: 30.h,
+                    ),
+                    CustomText(
+                      text: userName ?? 'User',
+                      color: AppColor.white,
+                      fontWeight: FontWeight.w400,
+                      size: 12.h,
+                    ),
+                    Divider()
+                  ],
+                ).addMargin(EdgeInsets.all(16.h)),
+              ),
+              createItem(
+                  context: context,
+                  navigateTo: CurrentOrderPage(),
+                  title: "Current Orders"),
+              createItem(
+                  context: context,
+                  navigateTo: TablePage(
+                    userCredential: widget.userCredential,
+                    // isTableManagement: true,
+                  ),
+                  title: "Tables/NewOrders"),
+              createItem(
+                  context: context,
+                  navigateTo: OrderHistoryPage(),
+                  title: "Order History"),
+              createItem(
+                  context: context,
+                  navigateTo: AddItemPage(),
+                  title: 'Add Item To Menu'),
+              createItem(
+                  context: context,
+                  navigateTo: DeleteItemPage(),
+                  title: 'Delete Item From Menu'),
+              Spacer(),
+              ListTile(
+                title: CustomText(
+                  text: 'Log Out',
+                  color: AppColor.white,
+                  fontWeight: FontWeight.bold,
                 ),
-                title: "Tables/NewOrders"),
-            createItem(
-                context: context,
-                navigateTo: OrderHistoryPage(),
-                title: "Order History"),
-            createItem(
-                context: context,
-                navigateTo: AddItemPage(),
-                title: 'Add Item To Menu'),
-            createItem(
-                context: context,
-                navigateTo: DeleteItemPage(),
-                title: 'Delete Item From Menu'),
-            ListTile(
-              title: CustomText(text: 'Log Out'),
-              onTap: () {
-                context.read<LoginBloc>().add(OnGoogleLogout(context: context));
-              },
-            ),
-            Gap(50.h)
-          ],
+                onTap: () {
+                  context
+                      .read<LoginBloc>()
+                      .add(OnGoogleLogout(context: context));
+                },
+              ),
+              Gap(50.h)
+            ],
+          ),
         ),
       ),
     );
@@ -89,7 +140,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
               builder: (context) => navigateTo,
             ));
       },
-      title: CustomText(text: title),
+      title: CustomText(
+        text: title,
+        color: AppColor.white,
+      ),
     );
   }
 }
