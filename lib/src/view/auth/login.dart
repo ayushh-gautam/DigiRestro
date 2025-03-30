@@ -32,15 +32,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: CustomText(
-          letterSpacing: 3.h,
-          text: 'Login',
-          size: 28,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
       body: Form(
         key: _formKey,
         child: Column(
@@ -48,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomText(
-              text: 'Welcome to\nDigiRestro',
+              text: 'Login to\nDigiRestro',
               letterSpacing: 1.1,
               fontWeight: FontWeight.w600,
               size: 26.h,
@@ -86,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
             Gap(18.h),
             Gap(10.h),
             CustomButton(
+              color: AppColor.primaryBlue,
               radius: 18.h,
               widget:
                   BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
@@ -112,18 +104,6 @@ class _LoginPageState extends State<LoginPage> {
               },
             ),
             Gap(14.h),
-            // Center(child: CustomText(text: 'or continue with')),
-            // Center(
-            //   child: GestureDetector(
-            //     onTap: () {
-            //       context.read<LoginBloc>().add(OnGoogleLogin(context: context));
-            //     },
-            //     child: SvgPicture.asset(
-            //       'lib/commons/assets/google.svg',
-            //       height: 80,
-            //     ),
-            //   ),
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

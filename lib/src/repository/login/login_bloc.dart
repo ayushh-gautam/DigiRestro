@@ -35,33 +35,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<OnEmailSignUp>(onEmailSignUp);
     // on<OnCheckLogin>(onCheckLogin);
   }
-
-  // Future<UserCredential?> onLoginWithGoogle(
-  //     OnGoogleLogin event, Emitter<LoginState> emit) async {
-  //   try {
-  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-
-  //     final GoogleSignInAuthentication? googleAuth =
-  //         await googleUser?.authentication;
-
-  //     final credential = GoogleAuthProvider.credential(
-  //       accessToken: googleAuth?.accessToken,
-  //       idToken: googleAuth?.idToken,
-  //     );
-
-  //     var data = await _auth
-  //         .signInWithCredential(credential)
-  //         .then((value) => toHomePage(event.context, value));
-
-  //     return data;
-  //   } on Exception catch (e) {
-  //     if (kDebugMode) {
-  //       print('exception->$e');
-  //     }
-  //     return null;
-  //   }
-  // }
-
   FutureOr<void> onLogoutGoogle(
       OnGoogleLogout event, Emitter<LoginState> emit) async {
     await _googleSignIn.signOut();

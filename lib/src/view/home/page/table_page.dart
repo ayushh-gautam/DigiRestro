@@ -226,12 +226,26 @@ class _TablePageState extends State<TablePage> {
                                                 ? Colors.red.shade300
                                                 : Colors.green.shade300,
                                             child: Center(
-                                              child: CustomText(
-                                                text:
-                                                    "Table ${table.tableNumber}",
-                                                color: Colors.white,
-                                                size: 20,
-                                                fontWeight: FontWeight.bold,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  CustomText(
+                                                    text:
+                                                        "Table ${table.tableNumber}",
+                                                    color: Colors.white,
+                                                    size: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  CustomText(
+                                                    text: isBooked
+                                                        ? "Booked"
+                                                        : 'Free',
+                                                    color: Colors.white,
+                                                    size: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),

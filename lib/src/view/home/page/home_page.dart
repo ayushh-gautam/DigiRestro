@@ -28,7 +28,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     context.read<ItemsCubit>().getItems();
-
     super.initState();
   }
 
@@ -40,25 +39,18 @@ class _HomePageState extends State<HomePage> {
       },
       child: Scaffold(
           appBar: AppBar(
+            backgroundColor: AppColor.newPrimary, // Use a vibrant color
             title: CustomText(
-                size: 14.h,
-                text:
-                    "Welcome ${widget.userCredential.user?.displayName ?? ''}"),
+                size: 16.h,
+                text: "Menu",
+                fontWeight: FontWeight.bold, // Bolder font
+                color: Colors.white),
             actions: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(300),
-                child: Image.network(
-                  widget.userCredential.user?.photoURL ??
-                      'https://i.pinimg.com/736x/01/de/87/01de8790415df8a899fb0420458c4a9c.jpg',
-                  height: 40,
-                  width: 40,
-                ),
-              ).addMargin(EdgeInsets.all(5.h)),
-              Gap(5.h)
+              HomeBottomSheet(
+                tableNumber: widget.currentTableNumber,
+              ).addMargin(EdgeInsets.all(8.h)),
+              Gap(8.h)
             ],
-          ),
-          bottomNavigationBar: HomeBottomSheet(
-            tableNumber: widget.currentTableNumber,
           ),
           drawer: HomeDrawer(
             userCredential: widget.userCredential,
@@ -68,19 +60,31 @@ class _HomePageState extends State<HomePage> {
               SliverToBoxAdapter(
                 child: Container(
                     margin: EdgeInsets.all(16.h),
-                    height: 50.h,
+                    height: 60.h,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(12.h),
+                        gradient: LinearGradient(
+                          colors: [AppColor.backButtonBg, AppColor.newPrimary],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                        color: AppColor.backButtonBg),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20.h),
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0, 4),
+                            blurRadius: 6,
+                          ),
+                        ]),
                     alignment: Alignment.center,
                     width: double.infinity,
                     child: CustomText(
                       text:
-                          "Current Table  ${widget.currentTableNumber.toString()}",
-                      fontWeight: FontWeight.w500,
-                      size: 18.h,
+                          "Current Table ${widget.currentTableNumber.toString()}",
+                      fontWeight: FontWeight.w600,
+                      size: 20.h,
+                      color: Colors.white,
                     )),
               ),
               BlocBuilder<ItemsCubit, ItemsState>(
@@ -88,7 +92,12 @@ class _HomePageState extends State<HomePage> {
                   if (state is ItemsLoaded) {
                     if (state.modelList.isEmpty) {
                       return SliverToBoxAdapter(
-                        child: Center(child: CustomText(text: 'No menu')),
+                        child: Center(
+                          child: CustomText(
+                              text: 'No menu available',
+                              fontWeight: FontWeight.w500,
+                              size: 18.h),
+                        ),
                       );
                     } else {
                       return TableCardGrid(
